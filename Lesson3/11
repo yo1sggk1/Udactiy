@@ -1,0 +1,49 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+%matplotlib inline
+np.random.seed(42)
+
+full_data = pd.read_csv('coffee_dataset.csv')
+sample_data = full_data.sample(200)
+
+diff = []
+for i in range(10000):
+    sample_data = full_data.sample(200, replace=True)
+    coffee_drinker = sample_data[sample_data.drinks_coffee==True]['height'].mean()
+    coffee_nondrinker = sample_data[sample_data.drinks_coffee==False]['height'].mean()
+    difference = coffee_drinker - coffee_nondrinker
+    diff.append(difference)
+
+np.percentile(diff, 0.5), np.percentile(diff,99)
+
+diff2 = []
+for t in range(10000):
+    sample_data = full_data.sample(200, replace=True)
+    older = sample_data[sample_data.age == '>=21']['height'].mean()
+    younger = sample_data[sample_data.age == '<21']['height'].mean()
+    difference = older - younger
+    diff2.append(difference)
+
+np.percentile(diff2, 0.5), np.percentile(diff2,99)
+
+diff3 = []
+for t in range(10000):
+    sample_data = full_data.sample(200, replace=True)
+    drinks_young = sample_data[(sample_data.age == '<21') & (sample_data.drinks_coffee)]['height'].mean()
+    nodrinks_young = sample_data[(sample_data.age == '<21') & ~ (sample_data.drinks_coffee)]['height'].mean()
+    difference = drinks_young - nodrinks_young
+    diff3.append(difference)
+
+np.percentile(diff3, 2.5), np.percentile(diff3,95)
+
+diff4= []
+for t in range(10000):
+    sample_data = full_data.sample(200, replace=True)
+    drinks_old = sample_data[(sample_data.age == '>=21') & (sample_data.drinks_coffee)]['height'].mean()
+    nodrinks_old = sample_data[(sample_data.age == '>=21') & ~ (sample_data.drinks_coffee)]['height'].mean()
+    difference = drinks_old - nodrinks_old
+    diff4.append(difference)
+
+np.percentile(diff4, 2.5), np.percentile(diff4, 95)
