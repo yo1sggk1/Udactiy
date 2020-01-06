@@ -30,3 +30,5 @@ df['age'] = df['birthday'].apply(lambda date: getAge(date))
 df['age'] = df.current_date - df.birthday
 df.head()
 """
+#plt.scatter(df.height, df.weight);
+plt.scatter(df.height, df.potential);
