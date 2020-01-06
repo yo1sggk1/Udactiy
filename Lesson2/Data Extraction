@@ -1,0 +1,23 @@
+//PlayersData
+
+SELECT
+	Player.player_api_id,
+	birthday,
+	height,
+	weight,
+	overall_rating,
+	potential
+FROM Player
+JOIN 
+(
+	SELECT 
+		max(date),
+		player_api_id,
+		overall_rating,
+		potential
+	FROM Player_Attributes
+	GROUP BY 
+		player_api_id
+)Attributes
+ON Player.player_api_id = Attributes.player_api_id
+;
